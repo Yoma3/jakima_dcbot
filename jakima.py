@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-token = 'Nzg5MDcyMzAzNDc1MzkyNTYz.X9su2Q.QRFCJE6XHI_tgmaXY_pWBBblNLc'
+token = ''
 bot = commands.Bot(command_prefix = '!')
 
 @bot.event
