@@ -17,7 +17,13 @@ client.on('message', message => {
 		client.emit('guildMemberAdd', message.member);
 	}
 });
-//-------------------- NEW MEMBER --------------------
+
+client.on('message', message => {
+	if (message.content === '!leave') {
+		client.emit('guildMemberRemove', message.member);
+	}
+});
+//-------------------- NEW MEMBER & LEFT SERVER --------------------
 client.on('guildMemberAdd', async member =>{ 
     const channel = member.guild.channels.cache.find(ch => ch.name === 'welcome');
     if (!channel) return;
@@ -96,6 +102,13 @@ client.on('guildMemberAdd', async member =>{
        
     const attachment = new Discord.MessageAttachment(canvas.toBuffer(), 'welcome-image.png');
     channel.send(`Welcome, ${member}`, attachment);
+});
+
+client.on('guildMemberRemove', async member =>{ 
+  const channel = member.guild.channels.cache.find(ch => ch.name === 'left-server');
+  if (!channel) return;
+  let tag = member.user.tag;
+  channel.send(`User **`+tag+`** just left the server! Bye bye....`);
 });
 
 //-------------------- COMMANDS --------------------
@@ -277,5 +290,56 @@ client.on('message', async message => {
         message.channel.bulkDelete(fetched).catch(error => message.reply(`Couldn't delete messages because of: ${error}`));
     }
 });    
+//-------------------- SERVER LOGS -----------------
+client.on("channelCreate", async function(channel){
+  let guild = client.guilds.cache.get('789095389450076202');
+  let LOGchannel = guild.channels.cache.find(ch => ch.name === 'logs');
+  ch = channel.name;
+  const AuditLogFetch = await channel.guild.fetchAuditLogs({limit: 1, type: "CHANNEL_CREATE"});
+  const entry = AuditLogFetch.entries.first();
+  const { executor, target } = entry;
+  if (target.id === channel.id)
+    LOGchannel.send(`Channel ${target} was created by ${executor}.`);
+  else
+  LOGchannel.send(`Channel ${channel} was created.`);
+});
+
+client.on("channelDelete", async function(channel){
+  let guild = client.guilds.cache.get('789095389450076202');
+  let LOGchannel = guild.channels.cache.find(ch => ch.name === 'logs');
+  ch = channel.name;
+  const AuditLogFetch = await channel.guild.fetchAuditLogs({limit: 1, type: "CHANNEL_DELETE"});
+  const entry = AuditLogFetch.entries.first();
+  const { executor, target } = entry;
+  if (target.id === channel.id)
+    LOGchannel.send(`Channel **#`+ch+`** was deleted by ${executor}.`);
+  else
+  LOGchannel.send(`Channel **#`+ch+`** was deleted.`);
+});
+
+client.on("channelPinsUpdate", function(channel, time){
+  let guild = client.guilds.cache.get('789095389450076202');
+  let LOGchannel = guild.channels.cache.find(ch => ch.name === 'logs');
+  LOGchannel.send(`Channel ${channel} pins were updated!`);
+  console.log(`channelPinsUpdate: ${channel}:${time}`);
+});
+
+client.on("guildBanAdd", async function(guild, user){
+  let LOGchannel = guild.channels.cache.find(ch => ch.name === 'logs');
+  const AuditLogFetch = await guild.fetchAuditLogs({limit: 1,	type: 'MEMBER_BAN_ADD',	});
+  const banLog = AuditLogFetch.entries.first();	
+	const { executor, target } = banLog;
+	if (target.id === user.id) 
+    LOGchannel.send(`**${user.tag}** was banned by **${executor.tag}**`);
+});
+
+client.on("guildBanRemove", async function(guild, user){
+  let LOGchannel = guild.channels.cache.find(ch => ch.name === 'logs');
+  const AuditLogFetch = await guild.fetchAuditLogs({limit: 1,	type: 'MEMBER_BAN_ADD',	});
+  const banLog = AuditLogFetch.entries.first();	
+	const { executor, target } = banLog;
+	if (target.id === user.id) 
+    LOGchannel.send(`**${user.tag}** was unbanned by **${executor.tag}**`);
+});
 
 client.login(token); //token na kraju uvek mora da bude
