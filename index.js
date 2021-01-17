@@ -165,10 +165,10 @@ client.on('message', async message => {
       message.channel.send(serverEmbed);
     }//EMBED
     if(command === "answer") {
-        let start = args[1]; //will, should, can, who, 5th
+        let start = args[0]; //will, should, can, who, 5th
         let randomMessage = '';
         if(start == "will"){
-            const messages = [
+            let messages = [
                 "Seriously?! You thought I would reply.", 
                 "hm, yeh thats a pretty random question - Don't ya think?", 
                 "Ok I'm actually running out of options now...", 
@@ -177,9 +177,47 @@ client.on('message', async message => {
                 "Yeah, ofcourse you will!",
                 "Nope, no way."
             ];
-            
-            randomMessage = messages[Math.floor(Math.random() * messages.length)];
-            
+            randomMessage = messages[Math.floor(Math.random() * Math.floor(messages.length))];
+        }
+        else if(start == "should"){
+            let messages = [
+            "Yes.",
+            "Nope.",
+            "You definitely should!",
+            "You definitely should (not)!",
+            "Yeah, it will pay off"
+            ];
+        randomMessage = messages[Math.floor(Math.random() * Math.floor(messages.length))];
+        }
+        else if(start == "can"){
+          let messages = [
+            "Yes.",
+            "Nope.",
+            "Why not?",
+            "If you dont try you'll never know.",
+            "Doubt."
+          ];
+          randomMessage = messages[Math.floor(Math.random() * Math.floor(messages.length))];
+          }
+          else if(start == "who"){
+            let messages = [
+              "It's someone you know.",
+              "I don't know.",
+              "Why are you asking me???",
+              "I won't tell you.",
+              "Ask your friends.",
+              "In the end it doesn't even matter..."
+            ];
+          randomMessage = messages[Math.floor(Math.random() * Math.floor(messages.length))];
+          }
+        else if(start == "when"){
+          let messages = [
+            "Never.",
+            "Tomorrow.",
+            "When pigs fly.",
+            "Right about... now."
+          ];
+        randomMessage = messages[Math.floor(Math.random() * Math.floor(messages.length))];
         }
         message.reply(randomMessage);
     }
