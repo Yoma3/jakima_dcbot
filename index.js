@@ -2,7 +2,7 @@
 const Discord = require('discord.js');
 const Canvas = require('canvas');   //for welcome image
 const prefix = "!";
-const token = "Nzg5MDcyMzAzNDc1MzkyNTYz.X9su2Q.pVnjhJFuQV0ax-g-8Tkpxd4CNE0";
+const token = "";
 
 const client = new Discord.Client();
 
