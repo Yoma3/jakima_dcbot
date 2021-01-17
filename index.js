@@ -2,7 +2,7 @@
 const Discord = require('discord.js');
 const Canvas = require('canvas');   //for welcome image
 const prefix = "!";
-const token = "";
+const token = "Nzg5MDcyMzAzNDc1MzkyNTYz.X9su2Q.pVnjhJFuQV0ax-g-8Tkpxd4CNE0";
 
 const client = new Discord.Client();
 
@@ -60,10 +60,10 @@ client.on('guildMemberAdd', async member =>{
     const memberTag = member.user.tag; //naziv sa tagom
     
     //text iznad
-    ctx.font = 'bold 35px verdana';
+    ctx.font = 'bold 45px verdana';
     ctx.fillStyle = '#ffffff';
-    ctx.fillText('Member No.', canvas.width / 2.5, canvas.height / 3.5);
-    ctx.strokeText('Member No.', canvas.width / 2.5, canvas.height / 3.5);
+    ctx.fillText('Welcome!', canvas.width / 2.5, canvas.height / 3);
+    ctx.strokeText('Welcome!', canvas.width / 2.5, canvas.height / 3);
     //user new
     const applyText = (canvas, text) => {
         const ctx = canvas.getContext('2d');
@@ -81,8 +81,8 @@ client.on('guildMemberAdd', async member =>{
     //text ispod
     ctx.font = 'bold 35px verdana';
     ctx.fillStyle = '#ffffff';
-    ctx.fillText('joined', canvas.width / 2.5, canvas.height / 1.3);
-    ctx.strokeText('joined', canvas.width / 2.5, canvas.height / 1.3);
+    ctx.fillText('joined the server', canvas.width / 2.5, canvas.height / 1.3);
+    ctx.strokeText('joined the server', canvas.width / 2.5, canvas.height / 1.3);
     
     
     //avatar
@@ -101,7 +101,7 @@ client.on('guildMemberAdd', async member =>{
     avatarstr.stroke();
        
     const attachment = new Discord.MessageAttachment(canvas.toBuffer(), 'welcome-image.png');
-    channel.send(`Welcome, ${member}`, attachment);
+    channel.send(`${member} welcome to our server! Have fun!`, attachment);
 });
 
 client.on('guildMemberRemove', async member =>{ 
@@ -129,6 +129,7 @@ client.on('message', async message => {
         .setFooter('JaKiMa BOT', 'https://i.imgur.com/0Ty2pLI.jpg');
       message.channel.send(rules);
     }//EMBED
+    
     if(command === 'ping') {
       const m = await message.channel.send("Ping?");
       const pingEmbed = new Discord.MessageEmbed()
@@ -164,13 +165,14 @@ client.on('message', async message => {
           .setFooter('JaKiMa BOT', 'https://i.imgur.com/0Ty2pLI.jpg');
       message.channel.send(serverEmbed);
     }//EMBED
-    if(command === "answer") {
-        let start = args[0]; //will, should, can, who, 5th
+
+     if(command === "answer") {
+        let start = args[0]; //will, should, can, who, when
         let randomMessage = '';
         if(start == "will"){
             let messages = [
                 "Seriously?! You thought I would reply.", 
-                "hm, yeh thats a pretty random question - Don't ya think?", 
+                "Hm, yeah thats a pretty random question - Don't ya think?", 
                 "Ok I'm actually running out of options now...", 
                 "Please stop asking me!!!", 
                 "Ok, im done!",
@@ -181,25 +183,29 @@ client.on('message', async message => {
         }
         else if(start == "should"){
             let messages = [
-            "Yes.",
-            "Nope.",
-            "You definitely should!",
-            "You definitely should (not)!",
-            "Yeah, it will pay off"
+                "Seriously?! You thought I would reply.", 
+                "Hm, yeah thats a pretty random question - Don't ya think?", 
+                "Yes.",
+                "Nope.",
+                "You definitely should!",
+                "You definitely should (not)!",
+                "Yeah, it will pay off"
             ];
         randomMessage = messages[Math.floor(Math.random() * Math.floor(messages.length))];
         }
         else if(start == "can"){
           let messages = [
-            "Yes.",
-            "Nope.",
-            "Why not?",
-            "If you dont try you'll never know.",
-            "Doubt."
+              "Seriously?! You thought I would reply.", 
+              "Hm, yeah thats a pretty random question - Don't ya think?", 
+              "Yes.",
+              "Nope.",
+              "Why not?",
+              "If you dont try you'll never know.",
+              "Doubt."
           ];
           randomMessage = messages[Math.floor(Math.random() * Math.floor(messages.length))];
-          }
-          else if(start == "who"){
+        }
+        else if(start == "who"){
             let messages = [
               "It's someone you know.",
               "I don't know.",
@@ -209,7 +215,7 @@ client.on('message', async message => {
               "In the end it doesn't even matter..."
             ];
           randomMessage = messages[Math.floor(Math.random() * Math.floor(messages.length))];
-          }
+        }
         else if(start == "when"){
           let messages = [
             "Never.",
@@ -219,6 +225,7 @@ client.on('message', async message => {
           ];
         randomMessage = messages[Math.floor(Math.random() * Math.floor(messages.length))];
         }
+        else randomMessage = "I cannot answer you that! You have to ask me with next words: will, should, can, who, when.";
         message.reply(randomMessage);
     }
     //-------------------- SPEC PERMISSION --------------------
